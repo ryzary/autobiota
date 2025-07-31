@@ -12,5 +12,5 @@ def train_model(path: str) -> str:
     model = RandomForestClassifier(n_estimators=100, random_state=42)
     model.fit(X_train, y_train)
 
-    joblib.dump(model, "model/disease_classifier.joblib")
-    return "Model trained and saved to model/disease_classifier.joblib"
+    joblib.dump(model, "outputs/model/disease_classifier.joblib")
+    return "Model trained and saved to outputs/model/disease_classifier.joblib"

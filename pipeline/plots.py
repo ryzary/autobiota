@@ -28,7 +28,7 @@ def plot_results(path: str) -> str:
     plt.title("PCA of Microbiome Data")
     plt.legend()
 
-    os.makedirs("model", exist_ok=True)
+    os.makedirs("outputs/plots", exist_ok=True)
     plot_path = "outputs/plots/pca_plot.png"
     plt.savefig(plot_path)
     plt.close()

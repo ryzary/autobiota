@@ -10,7 +10,7 @@ def evaluate_model(eval_csv_path: str) -> str:
     df = pd.read_csv(eval_csv_path)
 
     # Load model file separately
-    model = joblib.load("model/disease_classifier.joblib")
+    model = joblib.load("outputs/model/disease_classifier.joblib")
 
     # Prepare features and target
     X_eval = df.drop(columns=["label", "sample_id"])
