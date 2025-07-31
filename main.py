@@ -8,7 +8,7 @@ tools = [
     Tool(
         name="PreprocessData",
         func=preprocess.preprocess_data,
-        description="Preprocess microbiome data CSV file. Input should be the relative file path as a string without quotes, e.g. data/sample.csv."
+        description="Intelligently preprocess microbiome data CSV file. Automatically detects column names, data orientation (samples in rows/columns), sample IDs, labels, and bacterial abundance columns. Automatically finds and merges metadata files containing labels for ML training. Handles various data formats flexibly with smart sample ID matching. Input should be the relative file path as a string without quotes, e.g. data/sample.csv."
     ),
     Tool(
         name="TrainModel",
@@ -38,7 +38,7 @@ tools = [
     Tool(
         name="GenerateReport",
         func=report.generate_report,
-        description="Generate DOCX report from text summary and plot image file paths."
+        description="Generate a comprehensive DOCX report with analysis summary, methodology, results, and conclusions. Automatically includes evaluation metrics and plots."
     )
 ]
 
@@ -48,7 +48,8 @@ agent = initialize_agent(
     tools=tools,
     llm=llm,
     agent="zero-shot-react-description",
-    verbose=True
+    verbose=True,
+    handle_parsing_errors=True
 )
 
 # --- Run Gut Microbiome Analysis Agent ---
@@ -60,10 +61,12 @@ if __name__ == "__main__":
     print("Type a custom instruction or press [Enter] to run the full pipeline.\n")
 
     default_query = (
-        "Preprocess the raw data data/sample.csv. Saved the preprocessed data to data/sample_preprocessed.csv. "
-        "Train and evaluate a disease classifier using data/preprocessed_data.csv"
-        "Generate plots and save them into the plots directory."
-        "Produce a DOCX report containing the model evaluation result, plots, and explanations. Save it into the report directory"
+        "1. Use PreprocessData tool to process data/ZellerG_2014.csv (metadata labels will be automatically detected and merged). "
+        "2. Train a disease classifier model using the preprocessed data with merged labels. "
+        "3. Evaluate the trained model performance with classification metrics. "
+        "4. Compute diversity metrics from the preprocessed microbiome data. "
+        "5. Generate PCA plots showing separation between disease groups and save to outputs/plots directory. "
+        "6. Generate a comprehensive DOCX report with analysis results and save to outputs/reports directory."
     )
 
     # Accept query from command-line or user input
